@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,6 +33,9 @@ namespace Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ShopAppDbContext>(options => options.UseSqlite(_configuration.GetConnectionString("ShopAppDb")));
+
+            services.AddScoped<IProductRepository,ProductRepository>();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
