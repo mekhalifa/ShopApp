@@ -35,6 +35,7 @@ namespace Api
             services.AddDbContext<ShopAppDbContext>(options => options.UseSqlite(_configuration.GetConnectionString("ShopAppDb")));
 
             services.AddScoped<IProductRepository,ProductRepository>();
+            services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
