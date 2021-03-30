@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Infrastructure.Data;
+using Infrastructure.Data.SeedData;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,7 +15,7 @@ namespace Api
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
           var host=  CreateHostBuilder(args).Build();
           using (var scope = host.Services.CreateScope())
@@ -23,15 +24,16 @@ namespace Api
               var loggerFactory = services.GetService<ILoggerFactory>();
               try{
 
-                  var context= services.GetService<ShopAppDbContext>();
+                  var context= services.GetRequiredService<ShopAppDbContext>();
 
-                  context.Database.Migrate();
+                  await  context.Database.MigrateAsync();
+                  await  ShopAppDataSeed.SeedAsync(context,loggerFactory);
 
 
               }
               catch(Exception ex){
                   var logger = loggerFactory.CreateLogger<Program>();
-                  logger.LogInformation(ex ,"Error Occurred when Migrated");
+                  logger.LogError($"Error Occurred when Migrated : {ex.Message}");
 
               }
           }

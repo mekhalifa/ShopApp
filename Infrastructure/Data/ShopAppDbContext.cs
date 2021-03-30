@@ -1,4 +1,5 @@
 
+using System.Reflection;
 using Core.Entities;
 using Infrastructure.Data.Config;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +20,7 @@ namespace Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ProductConfigration).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
 }
