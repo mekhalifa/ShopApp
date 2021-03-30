@@ -11,11 +11,8 @@ namespace Api.Controllers
     [Route("[controller]")]
     
     //controller for test
-<<<<<<< HEAD
     //Add comment 2 for test
     //Add comment 3 for test
-=======
->>>>>>> parent of e34f990 (get merge)
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
