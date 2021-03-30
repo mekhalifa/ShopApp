@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Api.Extensions;
+using Api.Helpers;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Data.Repositories;
@@ -38,10 +40,8 @@ namespace Api
             services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
 
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ShopApp Api", Version = "v1" });
-            });
+            services.AddAutoMapper(typeof(MappingProfiles));
+            services.AddSwaggerDoc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,8 +50,7 @@ namespace Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ShopApp Api v1"));
+
             }
 
             app.UseHttpsRedirection();
@@ -59,6 +58,8 @@ namespace Api
             app.UseRouting();
 
             app.UseAuthorization();
+            
+            app.UseSwaggerDoc();
 
             app.UseEndpoints(endpoints =>
             {
